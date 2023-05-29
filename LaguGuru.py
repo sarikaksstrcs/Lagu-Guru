@@ -55,6 +55,9 @@ if classify_vritham:
     elif vc.check_keka(akshara,meter):
         st.write("കേക")
 
+    else:
+        st.write("കണ്ടെത്താനായില്ല")
+
     # data = { 'വരികൾ' : lines,
     #         'വൃത്തം' :  vritham
     # }
