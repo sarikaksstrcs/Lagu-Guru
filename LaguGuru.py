@@ -46,24 +46,23 @@ if lagu_guru:
     st.markdown(table_html, unsafe_allow_html=True)
 
 if classify_vritham:
-    vritham = []
-    for line in lines:
-        poem = ml_word(line)
-        akshara = poem.syllables()
-        meter = poem.laghuguru()
-        if vc.check_kakali(akshara,meter):
-            vritham.append("കാകളി")
-        elif vc.check_keka(akshara,meter):
-            vritham.append("കേക")
+    poem = ml_word(poem_text)
+    akshara = poem.syllables()
+    meter = poem.laghuguru()
+    if vc.check_kakali(akshara,meter):
+        st.write("കാകളി")
+    
+    elif vc.check_keka(akshara,meter):
+        st.write("കേക")
 
-    data = { 'വരികൾ' : lines,
-            'വൃത്തം' :  vritham
-    }
-    df = pd.DataFrame(data)
+    # data = { 'വരികൾ' : lines,
+    #         'വൃത്തം' :  vritham
+    # }
+    # df = pd.DataFrame(data)
 
-    print(data)
-    # Convert DataFrame to HTML table string without index column
-    table_html = df.to_html(index=False)
+    # print(data)
+    # # Convert DataFrame to HTML table string without index column
+    # table_html = df.to_html(index=False)
 
-    # Display the table using st.markdown()
-    st.markdown(table_html, unsafe_allow_html=True)
+    # # Display the table using st.markdown()
+    # st.markdown(table_html, unsafe_allow_html=True)

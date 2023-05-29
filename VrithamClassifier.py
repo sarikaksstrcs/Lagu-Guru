@@ -60,3 +60,7 @@ def check_keka(akshara,mathra):
     if 'G' not in x:
       return False
   return True
+
+def check_manjari(akshara,mathra):
+  grouped_akshara,grouped_mathra = divide_list_for_kakali(akshara, mathra)
+  
