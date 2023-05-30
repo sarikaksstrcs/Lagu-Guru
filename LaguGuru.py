@@ -7,7 +7,7 @@ import pandas as pd
 
 import VrithamClassifier as vc
 
-st.header("Lagu Guru Classifier")
+st.header("തേന്മാവ് : Malayalam Meter Classifier")
 
 poem_text = st.text_area("Enter your text here")
 
@@ -16,8 +16,22 @@ lines = poem_text.split("\n")
 
 poem = ml_word(poem_text)
 
+st.write("""
+<style>
+    .button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+st.write("<div class='button-container'>", unsafe_allow_html=True)
 lagu_guru = st.button("ലഘു ഗുരു തിരിക്കുക")
+
 classify_vritham = st.button("വൃത്തം കണ്ടെത്തുക")
+
+st.write("</div>", unsafe_allow_html=True)
 
 if lagu_guru:
     mathra = []
@@ -32,7 +46,7 @@ if lagu_guru:
             mathra.append(' ')
 
     # print(mathra)
-    st.write(poem.syllables())
+    # st.write(poem.syllables())
     data = { 'അക്ഷരങ്ങൾ' : poem.syllables(),
             'മാത്ര' : mathra
     }
