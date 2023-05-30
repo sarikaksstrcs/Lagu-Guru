@@ -67,7 +67,7 @@ if classify_vritham:
             akshara = poem.syllables()
             meter = poem.laghuguru()
 
-            if len(akshara) == 10:
+            if vc.find_len(akshara) == 10:
                 vritham.append("മാവേലി")
             elif vc.check_kakali(akshara,meter):
                 vritham.append("കാകളി")
@@ -78,8 +78,8 @@ if classify_vritham:
             else:
                 vritham.append("കണ്ടെത്താനായില്ല")
 
-        data = { 'Lines' : lines,
-            'Vritham' : vritham
+        data = { 'വരികൾ' : lines,
+            'വൃത്തം' : vritham
             }
 
         df = pd.DataFrame(data)
@@ -95,16 +95,16 @@ if classify_vritham:
         akshara = poem.syllables()
         meter = poem.laghuguru()
 
-        if len(akshara) == 10:
-            st.write("മാവേലി")
+        if vc.find_len(akshara) == 10:
+            st.write("**മാവേലി**")
         elif vc.check_kakali(akshara,meter):
-            st.write("കാകളി")
+            st.write("**കാകളി**")
         
         elif vc.check_keka(akshara,meter):
-            st.write("കേക")
+            st.write("**കേക**")
 
         else:
-            st.write("കണ്ടെത്താനായില്ല")
+            st.write("**കണ്ടെത്താനായില്ല**")
 
     # data = { 'വരികൾ' : lines,
     #         'വൃത്തം' :  vritham

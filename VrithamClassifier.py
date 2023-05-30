@@ -1,3 +1,11 @@
+def find_len(akshara):
+  l = 0
+  chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
+  for x in akshara:
+    if x not in chillu:
+      l +=1
+  return l
+
 
 def divide_list_for_kakali(akshara,mathra):
     i =0
