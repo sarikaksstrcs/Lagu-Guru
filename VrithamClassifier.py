@@ -64,3 +64,15 @@ def check_keka(akshara,mathra):
 def check_manjari(akshara,mathra):
   grouped_akshara,grouped_mathra = divide_list_for_kakali(akshara, mathra)
   
+  i,j =0,0
+  for i in range(len(grouped_akshara)-1):
+    sum =0
+    for j in range(len(grouped_mathra[i])):
+      if grouped_mathra[i][j] == 'G':
+        sum += 2
+      elif grouped_mathra[i][j] == 'L':
+        sum += 1
+    if sum != 5:
+      return False
+  if len(grouped_akshara[-1])==1:
+    return True
