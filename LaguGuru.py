@@ -93,16 +93,64 @@ if classify_vritham:
                 vritham.append("കണ്ടെത്താനായില്ല")
 
         data = { 'വരികൾ' : lines,
-            'വൃത്തം' : vritham
+            'വൃത്തം' : vritham,
             }
 
         df = pd.DataFrame(data)
-
-        # Convert DataFrame to HTML table string without index column
         table_html = df.to_html(index=False)
 
         # Display the table using st.markdown()
         st.markdown(table_html, unsafe_allow_html=True)
+
+        for index, row in df.iterrows():
+    # Access row data using column names
+            if row['വൃത്തം'] == "കണ്ടെത്താനായില്ല":
+                st.subheader("Suggestions")
+                poem = ml_word(row['വരികൾ'])
+                akshara = poem.syllables()
+                meter = poem.laghuguru()
+                grouped_akshara,grouped_mathra = vc.divide_list_for_kakali(akshara,meter)
+                i,j =0,0
+                mathra_sum =[]
+                for i in range(len(grouped_akshara)):
+                    sum =0
+                    for j in range(len(grouped_mathra[i])):
+                        if grouped_mathra[i][j] == 'G':
+                            sum += 2
+                        elif grouped_mathra[i][j] == 'L':
+                            sum += 1
+                    mathra_sum.append(sum)
+                text = []
+                for i in range(len(mathra_sum)):
+                    if mathra_sum[i]-5 == -1:
+                        text.append("<span style='color:red'>"+''.join(grouped_akshara[i])+"</span>")
+                        for j in range(len(grouped_akshara[i])):
+                            if grouped_akshara[i][j][-1] == 'ൊ':
+                                # st.write(mathra_sum[i])
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ോ')
+                            elif grouped_akshara[i][j][-1] == '്':
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
+                            elif grouped_akshara[i][j][-1] == 'ി':
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ീ')
+                            elif j+1 <len(grouped_akshara[i]):
+                                if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ'] and '്' not in grouped_akshara[i][j+1] :
+                                    st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
+                    elif mathra_sum[i]-5 == 1:
+                        text.append("<span style='color:blue'>"+''.join(grouped_akshara[i])+"</span>")
+                        for j in range(len(grouped_akshara[i])):
+                            if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ','ീ'] and '്' not in grouped_akshara[i][j+1]:
+                               st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
+                            elif grouped_akshara[i][j][-1] == 'ി':
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'്')
+                            elif grouped_akshara[i][j][-1] == 'ീ':
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
+                    else:
+                        text.append(''.join(grouped_akshara[i]))
+                print(text)
+                final_txt = ' '.join(text)
+                st.markdown(final_txt, unsafe_allow_html=True)
+        
+        
         
     elif not got:
         poem = ml_word(poem_text)
@@ -120,14 +168,3 @@ if classify_vritham:
         else:
             st.write("**കണ്ടെത്താനായില്ല**")
 
-    # data = { 'വരികൾ' : lines,
-    #         'വൃത്തം' :  vritham
-    # }
-    # df = pd.DataFrame(data)
-
-    # print(data)
-    # # Convert DataFrame to HTML table string without index column
-    # table_html = df.to_html(index=False)
-
-    # # Display the table using st.markdown()
-    # st.markdown(table_html, unsafe_allow_html=True)

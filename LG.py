@@ -120,7 +120,7 @@ class ml_word:
                   if (syllable.count(oneChar)==1):
                       syindex=syllable.index(oneChar)
                       mathra[syindex]=' '
-                    #   mathra[syindex - 1] = 'G'
+                      mathra[syindex - 1] = 'G'
                   else:
                       for index, value in enumerate(syllable):
                           if (value ==oneChar):

@@ -15,7 +15,10 @@ def divide_list_for_kakali(akshara,mathra):
     for x in range(4):
       x= 3
       for t in akshara[i:i+x]:
-        if t in chillu:
+        if len(t)==2:
+          if t[1] == '്':
+            x+=1
+        elif t in chillu:
           x +=1
       temp.append(akshara[i:i+x])
       temp_mathra.append(mathra[i:i+x])
@@ -30,7 +33,10 @@ def divide_list_for_keka(akshara,mathra):
   chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
   for x in inc_list:
     for t in akshara[i:i+x]:
-      if t in chillu:
+      if len(t)==2:
+        if t[1] == '്':
+          x+=1
+      elif t in chillu:
         x +=1
     temp.append(akshara[i:i+x])
     temp_mathra.append(mathra[i:i+x])
