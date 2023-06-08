@@ -9,6 +9,9 @@ import VrithamClassifier as vc
 
 st.header("തേന്മാവ് : Malayalam Meter Classifier")
 
+iframe_code = f'<iframe src="https://www.google.com/intl/ml/inputtools/try/" width="1000" height="600"></iframe>'
+st.components.v1.html(iframe_code, width=1200, height=200)
+
 poem_text = st.text_area("Enter your text here")
 
 # Display the entered text
@@ -132,6 +135,8 @@ if classify_vritham:
                                 st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
                             elif grouped_akshara[i][j][-1] == 'ി':
                                 st.write("Replace with",grouped_akshara[i][j][:-1]+'ീ')
+                            elif grouped_akshara[i][j][-1] == 'െ':
+                                st.write("Replace with",grouped_akshara[i][j][:-1]+'േ')
                             elif j+1 <len(grouped_akshara[i]):
                                 if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ'] and '്' not in grouped_akshara[i][j+1] :
                                     st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
