@@ -1,8 +1,9 @@
+import streamlit as st
 def find_len(akshara):
   l = 0
   chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
   for x in akshara:
-    if x not in chillu:
+    if x not in chillu and x[-1] != '്':
       l +=1
   return l
 
@@ -66,8 +67,9 @@ def check_keka(akshara,mathra):
   chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
   sum = 0
   for x in akshara:
-    if x not in chillu:
+    if x not in chillu and x[-1] != '്':
       sum+=1
+  print(sum)
   if sum!=14:
     return False
   for x in grouped_mathra:
@@ -90,3 +92,77 @@ def check_manjari(akshara,mathra):
       return False
   if len(grouped_akshara[-1])==1:
     return True
+
+def correct_vritham_for_kakali(grouped_akshara,grouped_mathra):
+  i,j =0,0
+  mathra_sum =[]
+  for i in range(len(grouped_akshara)):
+      sum =0
+      for j in range(len(grouped_mathra[i])):
+          if grouped_mathra[i][j] == 'G':
+              sum += 2
+          elif grouped_mathra[i][j] == 'L':
+              sum += 1
+      mathra_sum.append(sum)
+  text = []
+  for i in range(len(mathra_sum)):
+      if mathra_sum[i]-5 == -1:
+          text.append("<span style='color:red'>"+''.join(grouped_akshara[i])+"</span>")
+          for j in range(len(grouped_akshara[i])):
+              if grouped_akshara[i][j][-1] == 'ൊ':
+                  # st.write(mathra_sum[i])
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'ോ')
+              elif grouped_akshara[i][j][-1] == '്':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
+              elif grouped_akshara[i][j][-1] == 'ി':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'ീ')
+              elif grouped_akshara[i][j][-1] == 'െ':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'േ')
+              elif grouped_akshara[i][j][-1] == 'ു':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'ൂ')
+              if j+1 <len(grouped_akshara[i]):
+                if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ','ീ','േ','ൂ'] and '്' not in grouped_akshara[i][j+1] :
+                  st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
+     
+      elif mathra_sum[i]-5 == 1:
+          text.append("<span style='color:blue'>"+''.join(grouped_akshara[i])+"</span>")
+          for j in range(len(grouped_akshara[i])):
+              if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ','ീ'] and '്' not in grouped_akshara[i][j+1]:
+                  st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
+              elif grouped_akshara[i][j][-1] == 'ി':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'്')
+              elif grouped_akshara[i][j][-1] == 'ീ':
+                  st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
+      else:
+          text.append(''.join(grouped_akshara[i]))
+  print(text)
+  final_txt = ' '.join(text)
+  return final_txt
+
+def correct_vritham_for_keka(grouped_akshara,grouped_mathra):
+  i,j =0,0
+  mathra_sum =[]
+  text = []
+  for i in range(len(grouped_akshara)):
+      if 'G' not in grouped_mathra[i]:
+        text.append("<span style='color:red'>"+''.join(grouped_akshara[i])+"</span>")
+        for j in range(len(grouped_akshara[i])):
+          if grouped_akshara[i][j][-1] == 'ൊ':
+              # st.write(mathra_sum[i])
+              st.write("Replace with",grouped_akshara[i][j][:-1]+'ോ')
+          elif grouped_akshara[i][j][-1] == '്':
+              st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
+          elif grouped_akshara[i][j][-1] == 'ി':
+              st.write("Replace with",grouped_akshara[i][j][:-1]+'ീ')
+          elif grouped_akshara[i][j][-1] == 'െ':
+              st.write("Replace with",grouped_akshara[i][j][:-1]+'േ')
+          elif grouped_akshara[i][j][-1] == 'ു':
+              st.write("Replace with",grouped_akshara[i][j][:-1]+'ൂ')
+          if j+1 <len(grouped_akshara[i]):
+              if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ','ീ','േ','ൂ'] and '്' not in grouped_akshara[i][j+1] :
+                  st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
+      else:
+        text.append(''.join(grouped_akshara[i]))
+  final_txt = ' '.join(text)
+  return final_txt
+    

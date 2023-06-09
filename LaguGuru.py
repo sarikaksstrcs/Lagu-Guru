@@ -84,13 +84,14 @@ if classify_vritham:
             akshara = poem.syllables()
             meter = poem.laghuguru()
 
-            if vc.find_len(akshara) == 10:
-                vritham.append("മാവേലി")
-            elif vc.check_kakali(akshara,meter):
+            if vc.check_kakali(akshara,meter):
                 vritham.append("കാകളി")
             
             elif vc.check_keka(akshara,meter):
                 vritham.append("കേക")
+
+            elif vc.find_len(akshara) == 10:
+                vritham.append("മാവേലി")
 
             else:
                 vritham.append("കണ്ടെത്താനായില്ല")
@@ -112,47 +113,12 @@ if classify_vritham:
                 poem = ml_word(row['വരികൾ'])
                 akshara = poem.syllables()
                 meter = poem.laghuguru()
-                grouped_akshara,grouped_mathra = vc.divide_list_for_kakali(akshara,meter)
-                i,j =0,0
-                mathra_sum =[]
-                for i in range(len(grouped_akshara)):
-                    sum =0
-                    for j in range(len(grouped_mathra[i])):
-                        if grouped_mathra[i][j] == 'G':
-                            sum += 2
-                        elif grouped_mathra[i][j] == 'L':
-                            sum += 1
-                    mathra_sum.append(sum)
-                text = []
-                for i in range(len(mathra_sum)):
-                    if mathra_sum[i]-5 == -1:
-                        text.append("<span style='color:red'>"+''.join(grouped_akshara[i])+"</span>")
-                        for j in range(len(grouped_akshara[i])):
-                            if grouped_akshara[i][j][-1] == 'ൊ':
-                                # st.write(mathra_sum[i])
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ോ')
-                            elif grouped_akshara[i][j][-1] == '്':
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
-                            elif grouped_akshara[i][j][-1] == 'ി':
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ീ')
-                            elif grouped_akshara[i][j][-1] == 'െ':
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'േ')
-                            elif j+1 <len(grouped_akshara[i]):
-                                if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ'] and '്' not in grouped_akshara[i][j+1] :
-                                    st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
-                    elif mathra_sum[i]-5 == 1:
-                        text.append("<span style='color:blue'>"+''.join(grouped_akshara[i])+"</span>")
-                        for j in range(len(grouped_akshara[i])):
-                            if grouped_mathra[i][j] == 'L' and grouped_akshara[i][j+1][-1] in ['ോ','ാ','ീ'] and '്' not in grouped_akshara[i][j+1]:
-                               st.write("Replace with",grouped_akshara[i][j+1][0]+'്'+grouped_akshara[i][j+1][0]+grouped_akshara[i][j+1][-1])
-                            elif grouped_akshara[i][j][-1] == 'ി':
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'്')
-                            elif grouped_akshara[i][j][-1] == 'ീ':
-                                st.write("Replace with",grouped_akshara[i][j][:-1]+'ി')
-                    else:
-                        text.append(''.join(grouped_akshara[i]))
-                print(text)
-                final_txt = ' '.join(text)
+                if vc.find_len(akshara) == 14:
+                    grouped_akshara,grouped_mathra = vc.divide_list_for_keka(akshara,meter)
+                    final_txt = vc.correct_vritham_for_keka(grouped_akshara,grouped_mathra)
+                else:
+                    grouped_akshara,grouped_mathra = vc.divide_list_for_kakali(akshara,meter)
+                    final_txt = vc.correct_vritham_for_kakali(grouped_akshara,grouped_mathra)
                 st.markdown(final_txt, unsafe_allow_html=True)
         
         
