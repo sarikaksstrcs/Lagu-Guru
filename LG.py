@@ -23,54 +23,6 @@ def Compute_maathra(akshara_pattern): # calculate maathra input NJYSBMTRGL strin
         maathra += Maathra_table.get(akshara,0)
     return maathra
 
-filename = 'https://raw.githubusercontent.com/dcbfoss/vritham/test/db/data.csv'
-csvresponse = requests.get(filename)
-csvfile = codecs.iterdecode(csvresponse.iter_lines(), 'UTF-8')
-outputlist = []
-keydictionary = {}
-
-csvreader = csv.reader(csvfile)
-
-for row in csvreader:
-    if len(row[-1])>0:
-        keydictionary[row[-1].strip().upper()] = row[:-1]
-        keydictionary[row[-1].strip().upper()].append(Compute_maathra(row[-1].strip().upper()))
-        tlist = list(row)
-        tlist.append(Compute_maathra(row[-1].strip().upper()))
-        outputlist.append(tlist)
-
-def create_kmers(data,merlength=2):
-    mers = []
-    for text in data:
-        for index in range(len(text)):
-            current_mer = text[index:index+merlength]
-            if len(current_mer)==merlength:mers.append(current_mer)
-    return mers
-
-kmers = create_kmers(keydictionary.keys())
-
-for kmer in kmers:
-    x = entries.index(kmer[0].upper())
-    y = entries.index(kmer[1].upper())
-    vritham_matrix[y][x]+=1
-
-y_arr = [' '];y_arr.extend(entries)
-
-def create_matrix(values):
-    matrix = [['S','N','J','B','R','Y','T','M','G','L']]
-    for value in values:
-        for i in range(len(value)):
-            if len(matrix)<=i+1:matrix.append([0,0,0,0,0,0,0,0,0,0])
-            matrix[i+1][matrix[0].index(value[i].upper())] += 1
-    return matrix
-
-vritham_matrix = create_matrix(keydictionary.keys())
-
-sum = [0,0,0,0,0,0,0,0,0,0]
-for row in range(1,len(vritham_matrix)):
-    for i in range(len(vritham_matrix[row])):
-        sum[i] = sum[i]+vritham_matrix[row][i]
-
 class ml_word:
     def __init__(self, word):
         self.word = word

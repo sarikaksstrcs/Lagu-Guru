@@ -79,7 +79,8 @@ def check_keka(akshara,mathra):
 
 def check_manjari(akshara,mathra):
   grouped_akshara,grouped_mathra = divide_list_for_kakali(akshara, mathra)
-  
+  print(grouped_akshara)
+  print(grouped_mathra)
   i,j =0,0
   for i in range(len(grouped_akshara)-1):
     sum =0
@@ -90,8 +91,15 @@ def check_manjari(akshara,mathra):
         sum += 1
     if sum != 5:
       return False
-  if len(grouped_akshara[-1])==1:
+  l = 0
+  chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
+  for x in (grouped_akshara[-1]):
+    if x not in chillu and x[-1] != '്':
+       l += 1
+  if l == 1:
     return True
+  else:
+     return False
 
 def correct_vritham_for_kakali(grouped_akshara,grouped_mathra):
   i,j =0,0

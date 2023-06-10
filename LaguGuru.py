@@ -74,7 +74,7 @@ if classify_vritham:
         meter2 = poem.laghuguru()
 
         if vc.check_kakali(akshara1,meter1) and vc.check_manjari(akshara2,meter2):
-                st.write("മഞ്ജരി")
+                st.write("**മഞ്ജരി**")
                 got = 1
    
     if len(lines)>1 and not got:
