@@ -26,6 +26,23 @@ def divide_list_for_kakali(akshara,mathra):
       i+=x
     return temp,temp_mathra
 
+def divide_list_for_abhirami(akshara,mathra):
+    i =0
+    temp = []
+    temp_mathra = []
+    chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
+    for x in range(3):
+      x= 3
+      for t in akshara[i:i+x]:
+        if len(t)==2:
+          if t[1] == '്':
+            x+=1
+        elif t in chillu:
+          x +=1
+      temp.append(akshara[i:i+x])
+      temp_mathra.append(mathra[i:i+x])
+      i+=x
+    return temp,temp_mathra
 def divide_list_for_keka(akshara,mathra):
   inc_list = [3,2,2,3,2,2]
   i =0
@@ -97,6 +114,31 @@ def check_manjari(akshara,mathra):
     if x not in chillu and x[-1] != '്':
        l += 1
   if l == 1:
+    return True
+  else:
+     return False
+
+def check_abhirami(akshara,mathra):
+  grouped_akshara,grouped_mathra = divide_list_for_abhirami(akshara, mathra)
+  print("abhirami")
+  print(grouped_akshara)
+  print(grouped_mathra)
+  i,j =0,0
+  for i in range(len(grouped_akshara)-1):
+    sum =0
+    for j in range(len(grouped_mathra[i])):
+      if grouped_mathra[i][j] == 'G':
+        sum += 2
+      elif grouped_mathra[i][j] == 'L':
+        sum += 1
+    if sum != 5:
+      return False
+  l = 0
+  chillu = ['ൺ', 'ൻ', 'ർ', 'ൽ', 'ൾ']
+  for x in (grouped_akshara[-1]):
+    if x not in chillu and x[-1] != '്':
+       l += 1
+  if l == 2:
     return True
   else:
      return False
