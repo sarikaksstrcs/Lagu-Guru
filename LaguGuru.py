@@ -77,7 +77,7 @@ if classify_vritham:
                 st.write("**മഞ്ജരി**")
                 got = 1
         elif vc.check_abhirami(akshara2,meter2):
-                st.write("**അഭിരാമി**")
+                st.write("**അഭിരാമി/ഊന്ന കാകളി**")
                 got = 1
    
     if len(lines)>1 and not got:
